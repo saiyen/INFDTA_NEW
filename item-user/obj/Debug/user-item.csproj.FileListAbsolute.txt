@@ -1,0 +1,6 @@
+c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\bin\Debug\item-user.exe.config
+c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\bin\Debug\item-user.exe
+c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\bin\Debug\item-user.pdb
+c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\obj\Debug\user-item.csprojResolveAssemblyReference.cache
+c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\obj\Debug\item-user.exe
+c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\obj\Debug\item-user.pdb
