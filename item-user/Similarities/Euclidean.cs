@@ -22,7 +22,7 @@ namespace item_user.Similarities
 
             SquareRootOfTotal = Math.Sqrt(SumOfUser1MinusUser2);
             double Result = SquareRootOfTotal;
-            return Result;
+            return 1 / (1 + Result);
         }
     }
 }

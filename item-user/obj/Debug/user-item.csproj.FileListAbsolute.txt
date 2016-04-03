@@ -4,3 +4,8 @@ c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\bin\De
 c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\obj\Debug\user-item.csprojResolveAssemblyReference.cache
 c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\obj\Debug\item-user.exe
 c:\users\saiyen\documents\visual studio 2015\Projects\item-user\item-user\obj\Debug\item-user.pdb
+C:\Users\chill\Documents\Visual Studio 2015\Projects\INFDTA_NEW\item-user\bin\Debug\item-user.exe.config
+C:\Users\chill\Documents\Visual Studio 2015\Projects\INFDTA_NEW\item-user\bin\Debug\item-user.exe
+C:\Users\chill\Documents\Visual Studio 2015\Projects\INFDTA_NEW\item-user\bin\Debug\item-user.pdb
+C:\Users\chill\Documents\Visual Studio 2015\Projects\INFDTA_NEW\item-user\obj\Debug\item-user.exe
+C:\Users\chill\Documents\Visual Studio 2015\Projects\INFDTA_NEW\item-user\obj\Debug\item-user.pdb

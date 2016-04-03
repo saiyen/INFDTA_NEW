@@ -10,26 +10,25 @@ namespace item_user.FileReader
     {
         private string line;
         private char reggex = ' ';
-
+        string project_path = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
+        StreamReader file;
         Dictionary<int, List<UserPreference>> DictionaryOfUsers = new Dictionary<int, List<UserPreference>>();
 
         public StreamReader ReadFile(int DataSet)
         {
-            StreamReader file = new StreamReader("c://users/saiyen/documents/visual studio 2015/Projects/item-user/item-user/Files/userItem.data");
-
             if (DataSet == 1)
             {
                 reggex = ',';
 
                 // Read the file and display it line by line.
-                file = new StreamReader("c://users/saiyen/documents/visual studio 2015/Projects/item-user/item-user/Files/userItem.data");
+                file = new StreamReader(project_path+"/Files/userItem.data");
             }
             if(DataSet == 2)
             {
                 reggex = '\t';
 
                 // Read the file and display it line by line.
-                file = new StreamReader("c://users/saiyen/documents/visual studio 2015/Projects/item-user/item-user/Files/u100k.data");
+                file = new StreamReader(project_path+"/Files/u100k.data");
             }
           
             while ((line = file.ReadLine()) != null)
@@ -46,11 +45,10 @@ namespace item_user.FileReader
                 }
 
                 DictionaryOfUsers[userID].Add(new UserPreference { UserID = userID, Article = article, Rating = rating });
+
+                //Console.WriteLine("User: " + userID + " Article: " + article + " Rating: " + rating);
             }
             file.Close();
-
-            // Suspend the screen.
-            Console.ReadLine();
 
             return file;
         }

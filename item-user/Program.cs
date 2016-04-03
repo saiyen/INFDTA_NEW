@@ -9,16 +9,20 @@ namespace user_item
 {
     class Program
     {
+        public int neighboursThreshold { get; set; }
+        public int maxNeighbours { get; set; }
+        static Dictionary<int, List<UserPreference>> DictionaryOfUsers = new Dictionary<int, List<UserPreference>>();
+
         static void Main(string[] args)
         {
             ReadFromFile FileReader = new ReadFromFile();
             ChooseSimilarityStrategy(DataSetToDictionary(FileReader));
+            Console.Clear();
+            Main(new string[] { });
         }
 
         private static Dictionary<int, List<UserPreference>> DataSetToDictionary(ReadFromFile readFile)
         {
-            Dictionary<int, List<UserPreference>> DictionaryOfUsers;
-
             Console.WriteLine("Please choose a dataset to set them in a Dictionary:\n" + "\nOption 1: Small DataSet" + "\nOption 2: Big DataSet");
             int userInput = int.Parse(Console.ReadLine());
 
@@ -38,7 +42,7 @@ namespace user_item
         private static void ChooseSimilarityStrategy(Dictionary<int, List<UserPreference>> UsersDictionary)
         {
             Console.Clear();
-            Console.WriteLine("Please choose a Strategy:\n" + "\nOption 1: Similarities" + "\nOption 2: Nearest Neighbours\n" + "Option 3: Predict Ratings\n");
+            Console.WriteLine("Please choose a Strategy:\n" + "\nOption 1: Similarities" + "\nOption 2: Specific nearest Neighbours \n" + "Option 3: Predict Ratings\n" + "Option 4: Nearest Neighbours");
             int userInput = int.Parse(Console.ReadLine());
 
             switch (userInput)
@@ -87,27 +91,31 @@ namespace user_item
                     Console.WriteLine("Please select the amount of neighbours:");
                     int Neighbours = int.Parse(Console.ReadLine());
 
-                    neighbours.getNearestNeighbours(UsersDictionary, TargetUser, Neighbours);
-
                     break;
 
                 case 3:
 
                     Console.Clear();
-                    Console.WriteLine("Please select the Target User");
-                    int TargetUserPredictingRatings = int.Parse(Console.ReadLine());
-
-                    Console.WriteLine("Please select the amount of neighbours");
-                    int AmountOfNeighbours = int.Parse(Console.ReadLine());
-
-                    Console.WriteLine("Select the range of highest recommendations");
-
+                    Console.WriteLine("Specify the target user");
+                    int targetUserId = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Specify the maximum neighbours");
+                    int maxNeighbours = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Specify the top recommendations. If 0 prints all recommendations.");
                     int topRecommendations = int.Parse(Console.ReadLine());
+                    Console.Clear();
 
-                    var ratingsPredictor = new PredictRatings();
-                    ratingsPredictor.HighestRecommendations = topRecommendations;
-                    ratingsPredictor.PredictTheRating(UsersDictionary, TargetUserPredictingRatings, AmountOfNeighbours);
+                    var ratingsPredictor = new RatingsPredictor();
+                    ratingsPredictor.topOfRecommendations = topRecommendations;
+                    ratingsPredictor.predictRating(DictionaryOfUsers, targetUserId, maxNeighbours);
+                    Console.ReadKey();
+                    break;
+                case 4:
+                    Console.Clear();
+                    Console.WriteLine("Please select the Target User");
+                    int TargetUserCase4 = int.Parse(Console.ReadLine());
 
+                    NearestNeighbours.getCoefficient(DictionaryOfUsers, TargetUserCase4, 0, false);
+                    Console.ReadKey();
                     break;
             }
         }

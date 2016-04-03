@@ -3,21 +3,50 @@ using item_user.Similarities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace item_user.Classes
 {
-    class PredictRatings : Dictionary<int, List<UserPreference>>
+    internal class RatingsPredictor
     {
-        IRecommender Pearson = new Pearson();
-        List<KeyValuePair<int, double >> pearsonNeighbours = new List<KeyValuePair<int, double>>();
+        List<KeyValuePair<double, int>> Neighbours;
+        public int topOfRecommendations { get; set; }
 
-        public int HighestRecommendations { get; set; }
-
-        public void PredictTheRating(Dictionary<int, List<UserPreference>> DataSet, int TargetUser, int AmountOfNeighbours)
+        public void predictRating(Dictionary<int, List<UserPreference>> DictionaryOfUsers, int targetUserId, int maxNeighbours)
         {
+            Neighbours = NearestNeighbours.getCoefficient(DictionaryOfUsers, targetUserId, maxNeighbours, true);
 
+            var targetOfUserArticles = DictionaryOfUsers[targetUserId];
+            var unratedArticlesOfTargetUser = DictionaryOfUsers.SelectMany(x => x.Value).Select(x => x.Article).Distinct().Where(x => !targetOfUserArticles.Any(y => y.Article == x));
+            List<KeyValuePair<int, double>> recommendations = new List<KeyValuePair<int, double>>();
+            foreach (var article in unratedArticlesOfTargetUser)
+            {
+                double multiplyRatingWithCoefficient = 0;
+                double sumOfCoefficient = 0;
+
+                var ratingsNeighboursOfArticle = DictionaryOfUsers.Where(x => Neighbours.Any(y => y.Value == x.Key)).SelectMany(x => x.Value).Where(x => x.Article == article);
+                if (ratingsNeighboursOfArticle.Count() > 3)
+                {
+                    foreach (var item in ratingsNeighboursOfArticle)
+                    {
+                        var neighbour = Neighbours.FirstOrDefault(x => x.Value == item.UserID);
+                        multiplyRatingWithCoefficient += neighbour.Key * item.Rating;
+                        sumOfCoefficient += neighbour.Key;
+                    }
+
+                    double result = multiplyRatingWithCoefficient / sumOfCoefficient;
+
+                    if (!Double.IsNaN(result))
+                    {
+                        recommendations.Add(new KeyValuePair<int, double>(article, result));
+                        //Console.WriteLine("Predicted ratings for user {0}, article {1} : {2} ", targetUserId, article, result);
+                    }
+                }
+
+            }
+            foreach (var recommendation in recommendations.OrderByDescending(x => x.Value).Take(topOfRecommendations == 0 ? recommendations.Count() : topOfRecommendations))
+            {
+                Console.WriteLine("The predicted ratings for User: {0} of the Article: {1} is: {2}", targetUserId, recommendation.Key, recommendation.Value);
+            }
         }
     }
 }
